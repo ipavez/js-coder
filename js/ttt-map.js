@@ -44,16 +44,20 @@ function loginUser(usuario){
                 target = document.getElementById('saludo');
                 target.innerHTML = `Hola ${usuario}`
                 target.style.color = 'green';
-               
+                return usuario;
             }
             else{
                 alert('Password incorrecta.');
             }
         }
         else if(usuario == '+newUser'){
-            const nuevoUsuario = prompt('Ingrese nuevo usuario:');
+            let nuevoUsuario = prompt('Ingrese nuevo usuario:');
             if(loginMap.has(nuevoUsuario)){
                 alert('Usuario ya existe')
+            }
+            else if(nuevoUsuario == '+newUser') {
+                alert('Nombre usuario invalido');
+                
             }
             else{
                 const newPass = prompt('Establesca una contraseña:');
@@ -124,7 +128,8 @@ const ttt_report = new Report('ttt',new Date(2024,5,1,17,30,20), 'RM 2-0 BVB');
 
 
 let usuario = prompt('Para registrarse ingrese "+newUser" \n\nUsuario:');
-loginUser(usuario);
+//loginUser(usuario);
+usuario = loginUser(usuario);
 //snk_report.editReport(); //no funcionan los \n queda feo
 readReports(Report.allInstances);
 
