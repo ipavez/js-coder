@@ -29,7 +29,7 @@ class Report{
 }
 
 Report.allInstances=[];
-let usuario = prompt('Para registrarse ingrese "+newUser" \n\nUsuario:');
+
 
 function loginUser(usuario){
     let block = true;
@@ -123,7 +123,7 @@ const coder_report = new Report('coder', new Date(2024,4,30,20,0,0),consigna)
 const ttt_report = new Report('ttt',new Date(2024,5,1,17,30,20), 'RM 2-0 BVB');
 
 
-
+let usuario = prompt('Para registrarse ingrese "+newUser" \n\nUsuario:');
 loginUser(usuario);
 //snk_report.editReport(); //no funcionan los \n queda feo
 readReports(Report.allInstances);
