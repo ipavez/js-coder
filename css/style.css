@@ -1,0 +1,56 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: black;
+}
+
+
+body header{
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    color: antiquewhite;
+    justify-content: center;
+    align-items: center;
+}
+
+a{
+    text-decoration: none;
+}
+
+a h2{
+    color:red;  
+    font-weight:bolder; 
+} 
+
+#reports{
+    color: antiquewhite;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5vh;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+#reports input{
+    width: 50vw;
+    background-color: yellowgreen;
+}
+
+.report{
+    padding: 12px;
+    margin-top: 8px;
+    width: 50vw;
+}
+
+    
+
+
+
+
