@@ -19,14 +19,6 @@ body header{
     align-items: center;
 }
 
-a{
-    text-decoration: none;
-}
-
-a h2{
-    color:red;  
-    font-weight:bolder; 
-} 
 
 #reports{
     color: antiquewhite;
