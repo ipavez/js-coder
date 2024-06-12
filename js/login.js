@@ -15,11 +15,13 @@ if(localStorage.newUsers != undefined){
 
 function loginUser(usuario,password){
 if (loginMap.has(usuario)) {
-  if (password == loginMap.get(usuario).pass) {
+  if (password == null || usuario == null){
+    return undefined;
+  }
+  else if (password == loginMap.get(usuario).pass) {
     target = document.getElementById("saludo");
     target.innerHTML = `Hola ${usuario}`;
     target.style.color = "green";
-    //readReports(Report.allInstances);
     return usuario;
   } else {
     alert("Password incorrecta.");
@@ -28,7 +30,7 @@ if (loginMap.has(usuario)) {
   let nuevoUsuario = prompt("Ingrese nuevo usuario:");
   if (loginMap.has(nuevoUsuario)) {
     alert("Usuario ya existe");
-  } else if (nuevoUsuario == "+newUser") {
+  } else if (nuevoUsuario == "+newUser" || nuevoUsuario == null || nuevoUsuario == '') {
     alert("Nombre usuario invalido");
   } else {
     const newPass = prompt("Establesca una contraseña:");
@@ -49,18 +51,28 @@ const user = document.createElement('input');
 const pass_label = document.createElement('label');
 const pass = document.createElement('input');
 const btn = document.createElement('button');
+const newUserBtn = document.createElement('button');
 label.for = 'user';
 label.innerHTML = 'Usuario:';
 user.type = 'text';
 user.id = 'user';
+user.autocomplete = 'username';
 user.placeholder = 'User';
 pass_label.for = 'pass';
-pass_label.innerHTML = 'Password';
+pass_label.innerHTML = 'Password:';
 pass.type = 'password';
 pass.id = 'pass';
+pass.autocomplete = 'current-password';
 pass.placeholder = 'Password'
 btn.type = 'submit';
 btn.innerHTML = 'Login';
+newUserBtn.innerHTML = 'Nuevo usuario';
+
+newUserBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  loginUser('+newUser');
+  user.focus();
+})
 
 btn.addEventListener("click", (e) => {
   e.preventDefault();
@@ -71,6 +83,7 @@ btn.addEventListener("click", (e) => {
   }
   else{
     user.value = '';
+    user.focus();
     pass.value = '';
   }    
 })
@@ -81,3 +94,4 @@ label.appendChild(user);
 form.appendChild(pass_label);
 pass_label.appendChild(pass);
 form.appendChild(btn);
+form.appendChild(newUserBtn);

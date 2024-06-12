@@ -86,11 +86,12 @@ nav{
 
     
 
-#login-body{
+#login-body div form{
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 8px;
     align-items: center;
+    color: antiquewhite;
 }
 
 #login a{
