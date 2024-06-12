@@ -19,6 +19,11 @@ body header{
     align-items: center;
 }
 
+nav{
+    display: flex;
+    justify-content: space-around;
+}
+
 
 #reports{
     color: antiquewhite;
@@ -28,9 +33,10 @@ body header{
     justify-content: center;
     align-items: center;
     
+    
 }
 
-#reports input{
+#header input{
     width: 50vw;
     background-color: yellowgreen;
 }
@@ -40,9 +46,58 @@ body header{
     margin-top: 8px;
     width: 50vw;
 }
+.report h3{
+    padding: 1px;
+    font-size: 24px;
+}
+.report article{
+    padding: 4px;
+    font-size: 18px;
+}
+
+.complete-button{
+    background-color: rgb(7, 133, 7);
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 2px;
+    margin: 2px;
+
+}
+
+.alta-prioridad-btn{
+    background-color: rgb(162, 21, 21);
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 2px;
+    margin: 2px;
+
+}
+
+.baja-prioridad-btn{
+    background-color: rgb(215, 215, 30);
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 2px;
+    margin: 2px;
+
+}
+
+
 
     
 
+#login-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
 
+#login a{
+    color: black;
+    background-color: brown;
+    text-decoration: none;
+    
+}
 
 
