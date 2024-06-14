@@ -1,48 +1,3 @@
-const loginMap = new Map([
-  ['ttt', {pass:'app', admin:true}],
-  ['coder', {pass:'house',admin: true}],
-  ['snk', {pass:'mi',admin: true}],
-  ['admin', {pass:'admin', admin:true}]
-]);
-if(localStorage.newUsers != undefined){
-  const newUsers = JSON.parse(localStorage.newUsers);
-  for (const [newUser,info] of newUsers){
-      if(!loginMap.has(newUser)){
-          loginMap.set(newUser,info);
-      }
-  }
-}
-
-function loginUser(usuario,password){
-if (loginMap.has(usuario)) {
-  if (password == null || usuario == null){
-    return undefined;
-  }
-  else if (password == loginMap.get(usuario).pass) {
-    target = document.getElementById("saludo");
-    target.innerHTML = `Hola ${usuario}`;
-    target.style.color = "green";
-    return usuario;
-  } else {
-    alert("Password incorrecta.");
-  }
-} else if (usuario == "+newUser") {
-  let nuevoUsuario = prompt("Ingrese nuevo usuario:");
-  if (loginMap.has(nuevoUsuario)) {
-    alert("Usuario ya existe");
-  } else if (nuevoUsuario == "+newUser" || nuevoUsuario == null || nuevoUsuario == '') {
-    alert("Nombre usuario invalido");
-  } else {
-    const newPass = prompt("Establesca una contraseña:");
-    loginMap.set(nuevoUsuario, { pass: newPass, admin: false });
-    localStorage.newUsers = JSON.stringify(Array.from(loginMap.entries()));
-    alert(`Usuario ${nuevoUsuario} creado exitosamente.`);
-  }
-} else {
-  alert("Usuario no existe.");
-}
-} 
-
 const body = document.getElementById('login-body');
 const div = document.createElement('div');
 const form = document.createElement('form');
@@ -50,7 +5,7 @@ const label = document.createElement('label');
 const user = document.createElement('input');
 const pass_label = document.createElement('label');
 const pass = document.createElement('input');
-const btn = document.createElement('button');
+const loginBtn = document.createElement('button');
 const newUserBtn = document.createElement('button');
 label.for = 'user';
 label.innerHTML = 'Usuario:';
@@ -64,17 +19,78 @@ pass.type = 'password';
 pass.id = 'pass';
 pass.autocomplete = 'current-password';
 pass.placeholder = 'Password'
-btn.type = 'submit';
-btn.innerHTML = 'Login';
+loginBtn.type = 'submit';
+loginBtn.innerHTML = 'Login';
 newUserBtn.innerHTML = 'Nuevo usuario';
+body.appendChild(div);
+div.appendChild(form);
+form.appendChild(label);
+label.appendChild(user);
+form.appendChild(pass_label);
+pass_label.appendChild(pass);
+form.appendChild(loginBtn);
+form.appendChild(newUserBtn);
+
+function loginUser(usuario,password){
+  const target = document.getElementById('login-msg');
+  if (loginMap.has(usuario)) {
+    if (password == null || usuario == null){
+      return undefined;
+    }
+    else if (password == loginMap.get(usuario).pass) {
+    const saludo = document.getElementById("saludo");
+    saludo.innerHTML = `Hola ${usuario}`;
+    saludo.style.color = "green";
+    return usuario;
+    } 
+    else {
+    target.innerHTML = 'Password incorrecta.';
+    target.style.color ='red';
+    pass.value = '';
+    pass.focus();
+    return undefined;
+    }
+  }
+  else if (usuario == "+newUser") {
+    let nuevoUsuario = user.value;
+    if (loginMap.has(nuevoUsuario)) {
+      target.innerHTML = 'Usuario ya existe.';
+      target.style.color ='red';
+      pass.value = '';
+      user.focus();
+      return undefined;
+    } 
+    else if (nuevoUsuario == "+newUser" || nuevoUsuario == null || nuevoUsuario == '') { 
+      target.innerHTML = 'Ingrese un nuevo usuario.';
+      target.style.color ='green';
+      user.focus();
+      return undefined;
+   }  
+    else {
+      const newPass = pass.value;
+      loginMap.set(nuevoUsuario, { pass: newPass, admin: false });
+      localStorage.newUsers = JSON.stringify(Array.from(loginMap.entries()));
+      target.innerHTML = `Usuario ${nuevoUsuario} creado exitosamente.`;
+      target.style.color ='green';
+      loginBtn.focus();
+    }
+  } 
+  else {
+    target.innerHTML = 'Usuario no existe.';
+    target.style.color ='red';
+    pass.value = '';
+    user.focus();
+    return undefined;
+  }
+} 
 
 newUserBtn.addEventListener("click", (e) => {
   e.preventDefault();
   loginUser('+newUser');
-  user.focus();
+  
 })
 
-btn.addEventListener("click", (e) => {
+loginBtn.addEventListener("click", (e) => {
   e.preventDefault();
   let usuario = loginUser(user.value,pass.value);
   if(usuario != undefined){
@@ -82,16 +98,10 @@ btn.addEventListener("click", (e) => {
     window.location.replace('../index.html');
   }
   else{
-    user.value = '';
-    user.focus();
     pass.value = '';
   }    
 })
-body.appendChild(div);
-div.appendChild(form);
-form.appendChild(label);
-label.appendChild(user);
-form.appendChild(pass_label);
-pass_label.appendChild(pass);
-form.appendChild(btn);
-form.appendChild(newUserBtn);
+
+
+
+user.focus();
