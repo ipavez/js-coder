@@ -21,7 +21,7 @@ if (localStorage.newReports != undefined) {
   const newReportList = JSON.parse(localStorage.newReports);
   Report.allInstances.push(...newReportList);
 }
-function createFechaBtn(target){
+function createFechaBtn(parent){
   const fechaBtn = document.createElement("button");
   const fechaSwitch = [0, 1];
   let currentSwitch = 0;
@@ -54,9 +54,9 @@ function createFechaBtn(target){
         break;
     }
   });
-  target.appendChild(fechaBtn);
+  parent.appendChild(fechaBtn);
 }
-function createPrioridadBtn(target){
+function createPrioridadBtn(parent){
   const prioridadBtn = document.createElement("button");
   prioridadBtn.innerHTML = "Prioridad";
   prioridadBtn.type = "submit";
@@ -80,9 +80,9 @@ function createPrioridadBtn(target){
     readReports(list);
     
   });
-  target.appendChild(prioridadBtn);
+  parent.appendChild(prioridadBtn);
 }
-function createAdminBtn(target, this_user = usuario){
+function createAdminBtn(parent, this_user = usuario){
   if (loginMap.get(this_user).admin) {
     const papeleraBtn = document.createElement("button");
     papeleraBtn.innerHTML = "Papelera";
@@ -105,7 +105,7 @@ function createAdminBtn(target, this_user = usuario){
         readPapelera(reportList);
         } 
       });
-    target.appendChild(papeleraBtn);
+    parent.appendChild(papeleraBtn);
   };
 }
 function createNav(this_user = usuario) {
