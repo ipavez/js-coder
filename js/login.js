@@ -95,7 +95,7 @@ loginBtn.addEventListener("click", (e) => {
   let usuario = loginUser(user.value,pass.value);
   if(usuario != undefined){
     sessionStorage.user = JSON.stringify(usuario);
-    window.location.replace('../index.html');
+    window.location.replace('./index.html');
   }
   else{
     pass.value = '';
