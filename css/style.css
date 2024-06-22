@@ -3,12 +3,9 @@
     margin: 0;
     box-sizing: border-box;
 }
-
 body{
     background-color: black;
 }
-
-
 body header{
     margin-top: 12px;
     display: flex;
@@ -18,13 +15,6 @@ body header{
     justify-content: center;
     align-items: center;
 }
-
-nav{
-    display: flex;
-    justify-content: space-around;
-}
-
-
 #reports{
     color: antiquewhite;
     display: flex;
@@ -32,15 +22,13 @@ nav{
     margin-top: 5vh;
     justify-content: center;
     align-items: center;
-    
-    
 }
-
-#header input{
+#boton{
     width: 50vw;
     background-color: yellowgreen;
+    margin-top: 8px;
+    display: none;
 }
-
 .report{
     padding: 12px;
     margin-top: 8px;
@@ -54,38 +42,27 @@ nav{
     padding: 4px;
     font-size: 18px;
 }
-
 .complete-button{
     background-color: rgb(7, 133, 7);
     border-radius: 5px;
     font-weight: 500;
     padding: 2px;
     margin: 2px;
-
 }
-
 .alta-prioridad-btn{
     background-color: rgb(162, 21, 21);
     border-radius: 5px;
     font-weight: 500;
     padding: 2px;
     margin: 2px;
-
 }
-
 .baja-prioridad-btn{
     background-color: rgb(215, 215, 30);
     border-radius: 5px;
     font-weight: 500;
     padding: 2px;
     margin: 2px;
-
 }
-
-
-
-    
-
 #login-body div form{
     display: flex;
     justify-content: center;
@@ -93,12 +70,15 @@ nav{
     align-items: center;
     color: antiquewhite;
 }
-
-#logout a{
+#log-out button {
     color: black;
     background-color: brown;
     text-decoration: none;
-    
+    width: 60px;
+    height: 20px;   
+}
+#saludo{
+    margin-top: 8px;
 }
 
 

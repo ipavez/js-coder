@@ -4,7 +4,7 @@ const loginMap = new Map([
     ['snk', {pass:'mi',admin: true}],
     ['admin', {pass:'admin', admin:true}]
   ]);
-  if(localStorage.newUsers != undefined){
+  if(localStorage.newUsers){
     const newUsers = JSON.parse(localStorage.newUsers);
     for (const [newUser,info] of newUsers){
         if(!loginMap.has(newUser)){
@@ -12,5 +12,3 @@ const loginMap = new Map([
         }
     }
   }
-
-

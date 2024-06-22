@@ -7,17 +7,12 @@ class Report {
     this.date = fecha;
     this.prioridad = prioridad;
     this.id = `${user} - ${fecha}`;
-  
-    
 
     Report.allInstances.push(this);
   }
-  altaPrioridad() {
-    this.prioridad = "alta";
-  }
 }
 Report.allInstances = [];
-if (localStorage.newReports != undefined) {
+if (localStorage.newReports){ 
   const newReportList = JSON.parse(localStorage.newReports);
   Report.allInstances.push(...newReportList);
 }
@@ -26,14 +21,12 @@ function createFechaBtn(parent){
   const fechaSwitch = [0, 1];
   let currentSwitch = 0;
   fechaBtn.innerHTML = "Fecha";
-  fechaBtn.type = "submit";
   fechaBtn.style.borderRadius = "60px";
   fechaBtn.style.height = "20px";
   fechaBtn.style.width = "60px";
   fechaBtn.style.backgroundColor = "lightblue";
   fechaBtn.addEventListener("click", () => {
     currentSwitch = (currentSwitch + 1) % fechaSwitch.length;
-    const target = document.getElementById("reports");
     switch (currentSwitch) {
       case 0:
         const sortedReportList = Report.allInstances.sort((a, b) => {
@@ -50,6 +43,7 @@ function createFechaBtn(parent){
         target.innerHTML = "";
         readReports(reportList);
         break;
+
       default:
         break;
     }
@@ -59,7 +53,6 @@ function createFechaBtn(parent){
 function createPrioridadBtn(parent){
   const prioridadBtn = document.createElement("button");
   prioridadBtn.innerHTML = "Prioridad";
-  prioridadBtn.type = "submit";
   prioridadBtn.style.borderRadius = "60px";
   prioridadBtn.style.height = "20px";
   prioridadBtn.style.width = "60px";
@@ -75,7 +68,6 @@ function createPrioridadBtn(parent){
       (report) => report.prioridad == "baja"
     );
     const list = prioList.concat(bajaPrioList);
-    const target = document.getElementById("reports");
     target.innerHTML = "";
     readReports(list);
     
@@ -92,7 +84,6 @@ function createAdminBtn(parent, this_user = usuario){
     papeleraBtn.style.backgroundColor = "antiquewhite";
 
     papeleraBtn.addEventListener("click", () => {
-      const target = document.getElementById("reports");
       const reportList = Report.allInstances.filter(
         (report) => report.prioridad == "eliminado"
       );
@@ -109,20 +100,18 @@ function createAdminBtn(parent, this_user = usuario){
   };
 }
 function createNav(this_user = usuario) {
-  const nav = document.getElementById("nav");
+  //const nav = document.getElementById("nav");
   createFechaBtn(nav);
   createPrioridadBtn(nav);
   createAdminBtn(nav,this_user);
 }
 function addReport(user = usuario) {
-  const target = document.getElementById("reports");
   const report = document.createElement("div");
   const autor = document.createElement("h3");
   const form = document.createElement("form");
   const newReport = document.createElement("input");
   const sendBtn = document.createElement("button");
   autor.style.color = "antiquewhite";
-  sendBtn.type = 'submit'
   sendBtn.innerHTML = "Confirmar";
   sendBtn.classList.add("send-btn");
   newReport.id = 'nuevo-reporte';
@@ -136,9 +125,8 @@ function addReport(user = usuario) {
   deleteBtn.style.backgroundColor = "red";
   deleteBtn.style.marginLeft = "8px";
   deleteBtn.addEventListener("click", () => {
-    report.style.display = "none";
-    report.classList.add("eliminado");
-    localStorage.newReports = JSON.stringify(Report.allInstances);
+    target.innerHTML = "";
+    readReports(Report.allInstances);
   });
   target.innerHTML = "";
   target.appendChild(report);
@@ -148,32 +136,29 @@ function addReport(user = usuario) {
   report.appendChild(form);
   autor.innerHTML = `${user}`;
   autor.appendChild(deleteBtn);
-  if( sessionStorage.unfinished != undefined){
+  if( sessionStorage.unfinished){
     newReport.value = JSON.parse(sessionStorage.unfinished);
   }
-
   newReport.addEventListener('change', () => {
     sessionStorage.unfinished = JSON.stringify(newReport.value);
   });
-
   sendBtn.addEventListener("click", () => {
     target.innerHTML = '';
     const fecha = new Date();
     thisReport = new Report(user, fecha, newReport.value);
-    localStorage.newReports = JSON.stringify(Report.allInstances);
     target.innerHTML = '';
     const sortedReportList = Report.allInstances.sort((a, b) => {
     return new Date(b.date) - new Date(a.date);
     });
     sessionStorage.removeItem('unfinished');
+    localStorage.newReports = JSON.stringify(sortedReportList);
     readReports(sortedReportList);
   });
   newReport.focus()
-  localStorage.newReports = JSON.stringify(Report.allInstances);
+  
   
 }
 function readReports(report_array, this_user = usuario) {
-  const target = document.getElementById("reports");
   const reportes = report_array.filter(x => x.prioridad != 'eliminado');
   if (reportes.length == 0){
     target.innerHTML = 'No hay reportes.'
@@ -253,7 +238,6 @@ function readReports(report_array, this_user = usuario) {
   }
 }
 function readPapelera(report_array, this_user = usuario) {
-  const target = document.getElementById("reports");
   const papeleraList = report_array.filter(x => x.prioridad == 'eliminado');
   const deleteBtn = document.createElement("button");
   const resetBtn = document.createElement("button");
@@ -292,7 +276,6 @@ function readPapelera(report_array, this_user = usuario) {
     label.for = `checkbox`;
     checkbox.name = `checkbox`;
     checkbox.type = 'checkbox';
-    checkbox.info = `${x}`;
     target.appendChild(report);
     report.appendChild(autor);
     report.appendChild(newReport);
@@ -300,11 +283,8 @@ function readPapelera(report_array, this_user = usuario) {
     report.appendChild(checkbox);
   }
   deleteBtn.addEventListener("click", () => {
-    const checkList = document.querySelectorAll(`input[name=checkbox]:checked`);
-    let borrarList =[];
-    for (x of checkList) {///map
-      borrarList.push(x.parentElement.children[0].innerHTML);
-    }
+    const checkList = document.querySelectorAll(`input[name=checkbox]:checked`);    
+    const borrarList = Array.from(checkList).map((x) => x.parentElement.children[0].innerHTML);
     const reportList = Report.allInstances.filter((e) => !borrarList.includes(e.id) );
     Report.allInstances = reportList;
     localStorage.newReports = JSON.stringify(reportList);
@@ -320,7 +300,6 @@ function readPapelera(report_array, this_user = usuario) {
       );
       localStorage.newReports = JSON.stringify(reportList);
       Report.allInstances = reportList;
-      const target = document.getElementById("reports");
       target.innerHTML = "";
       target.innerHTML = 'Papelera Vacia'
       saludo.innerHTML = `Hola ${usuario}`;
@@ -335,21 +314,33 @@ function readPapelera(report_array, this_user = usuario) {
     }
   });
 }
-const addReportBtn = document.getElementById("boton");
-const logOutA = document.getElementById("logout");
-const saludo = document.getElementById("saludo");
-logOutA.style.display = "none";
-addReportBtn.style.display = "none";
-if (sessionStorage.user != undefined) {
-  usuario = JSON.parse(sessionStorage.user);
+function sessionUser(usuario) {
   saludo.innerHTML = `Hola ${usuario}`;
   saludo.style.color = "green";
   addReportBtn.style.display = "block";
-  logOutA.style.display = "block";
-  logOutA.addEventListener("click", sessionStorage.clear());
+  const logout = document.createElement('button');
+  logout.innerHTML = 'Log out'
+  span.appendChild(logout);
+  logout.addEventListener("click", () => {
+    sessionStorage.clear();
+    window.location.reload();
+  });
   createNav();
   readReports(Report.allInstances);
   addReportBtn.focus();
-} else {
-  saludo.innerHTML = '<a href="login.html" >Iniciar sesion</a>';
 }
+const span = document.getElementById("log-out");
+const saludo = document.getElementById("saludo");
+const nav = document.getElementById("nav");
+const addReportBtn = document.getElementById("boton");
+const target = document.getElementById("reports");
+
+const checkUser = sessionStorage.user
+  ? () => {
+      usuario = JSON.parse(sessionStorage.user);
+      sessionUser(usuario);
+    }
+  : saludo.innerHTML = '<a href="./login.html" >Iniciar sesion</a>';
+checkUser();
+  
+

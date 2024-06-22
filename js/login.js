@@ -34,45 +34,48 @@ form.appendChild(newUserBtn);
 function loginUser(usuario,password){
   const target = document.getElementById('login-msg');
   if (loginMap.has(usuario)) {
-    if (password == null || usuario == null){
-      return undefined;
+    if (!password){
+      target.innerHTML = 'Ingrese su password.';
+      target.style.color ='red';
+      pass.focus();
     }
     else if (password == loginMap.get(usuario).pass) {
-    const saludo = document.getElementById("saludo");
-    saludo.innerHTML = `Hola ${usuario}`;
-    saludo.style.color = "green";
-    return usuario;
+      return usuario;
     } 
     else {
-    target.innerHTML = 'Password incorrecta.';
-    target.style.color ='red';
-    pass.value = '';
-    pass.focus();
-    return undefined;
+      target.innerHTML = 'Password incorrecta.';
+      target.style.color ='red';
+      pass.value = '';
+      pass.focus();
     }
   }
-  else if (usuario == "+newUser") {
+  else if (usuario === "+++newUserSecretSyntax+++") {
     let nuevoUsuario = user.value;
     if (loginMap.has(nuevoUsuario)) {
       target.innerHTML = 'Usuario ya existe.';
       target.style.color ='red';
       pass.value = '';
       user.focus();
-      return undefined;
     } 
-    else if (nuevoUsuario == "+newUser" || nuevoUsuario == null || nuevoUsuario == '') { 
+    else if (!nuevoUsuario) { 
       target.innerHTML = 'Ingrese un nuevo usuario.';
       target.style.color ='green';
       user.focus();
-      return undefined;
    }  
     else {
       const newPass = pass.value;
-      loginMap.set(nuevoUsuario, { pass: newPass, admin: false });
-      localStorage.newUsers = JSON.stringify(Array.from(loginMap.entries()));
+      if(!newPass){
+        target.innerHTML = 'Ingrese un nuevo password.';
+        target.style.color ='green';
+        pass.focus();
+      }
+      else{
+      loginMap.set(nuevoUsuario, {pass: newPass, admin: false});
+      localStorage.newUsers = JSON.stringify(Array.from(loginMap));
       target.innerHTML = `Usuario ${nuevoUsuario} creado exitosamente.`;
       target.style.color ='green';
       loginBtn.focus();
+      }
     }
   } 
   else {
@@ -80,28 +83,23 @@ function loginUser(usuario,password){
     target.style.color ='red';
     pass.value = '';
     user.focus();
-    return undefined;
   }
-} 
-
+}
 newUserBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  loginUser('+newUser');
-  
+  loginUser("+++newUserSecretSyntax+++");
 })
-
 loginBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  let usuario = loginUser(user.value,pass.value);
-  if(usuario != undefined){
-    sessionStorage.user = JSON.stringify(usuario);
-    window.location.replace('./index.html');
-  }
-  else{
-    pass.value = '';
-  }    
-})
-
-
+  const usuario = loginUser(user.value, pass.value);
+  const checkUsuario = usuario
+    ? () => {
+        sessionStorage.user = JSON.stringify(usuario);
+        window.location.replace("./index.html");
+      }
+    : pass.value = '';
+  checkUsuario();
+});
 
 user.focus();
+ 
