@@ -1,0 +1,87 @@
+[
+  {
+    "nombre": "pizza queso",
+    "descripcion" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, nostrum nihil? Exercitationem, harum architecto. Tenetur quaerat esse et voluptates ipsum iusto amet modi cupiditate exercitationem repellat. Facilis tenetur impedit sit.",
+    "categoria": "plato",
+    "precio": 5300,
+    "stock": true
+  },
+  {
+    "nombre": "cerveza estrella",
+    "descripcion" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, nostrum nihil? Exercitationem, harum architecto. Tenetur quaerat esse et voluptates ipsum iusto amet modi cupiditate exercitationem repellat. Facilis tenetur impedit sit.",
+    "categoria": "bebida alcoholica",
+    "precio": 4400,
+    "stock": true
+  },
+  {
+    "nombre": "cerveza oso",
+    "descripcion" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, nostrum nihil? Exercitationem, harum architecto. Tenetur quaerat esse et voluptates ipsum iusto amet modi cupiditate exercitationem repellat. Facilis tenetur impedit sit.",
+    "categoria": "bebida alcoholica",
+    "precio": 3800,
+    "stock": true
+  },
+  {
+    "nombre": "agua mineral",
+    "descripcion" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, nostrum nihil? Exercitationem, harum architecto. Tenetur quaerat esse et voluptates ipsum iusto amet modi cupiditate exercitationem repellat. Facilis tenetur impedit sit.",
+    "categoria": "bebida",
+    "precio": 1800,
+    "stock": true
+  },
+  {
+    "nombre": "jugo natural",
+    "descripcion" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, nostrum nihil? Exercitationem, harum architecto. Tenetur quaerat esse et voluptates ipsum iusto amet modi cupiditate exercitationem repellat. Facilis tenetur impedit sit.",
+    "categoria": "bebida",
+    "precio": 3000,
+    "stock": true
+  },
+  {
+    "nombre": "coca-cola",
+    "descripcion" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, nostrum nihil? Exercitationem, harum architecto. Tenetur quaerat esse et voluptates ipsum iusto amet modi cupiditate exercitationem repellat. Facilis tenetur impedit sit.",
+    "categoria": "bebida",
+    "precio": 1800,
+    "stock": true
+  },
+  {
+    "nombre": "pizza salame",
+    "descripcion" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, nostrum nihil? Exercitationem, harum architecto. Tenetur quaerat esse et voluptates ipsum iusto amet modi cupiditate exercitationem repellat. Facilis tenetur impedit sit.",
+    "categoria": "plato",
+    "precio": 5000,
+    "stock": true
+  },
+  {
+    "nombre": "pizza vegetariana",
+    "descripcion" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, nostrum nihil? Exercitationem, harum architecto. Tenetur quaerat esse et voluptates ipsum iusto amet modi cupiditate exercitationem repellat. Facilis tenetur impedit sit.",
+    "categoria": "plato",
+    "precio": 5700,
+    "stock": true
+  },
+  {
+    "nombre": "fideos dpana",
+    "descripcion" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, nostrum nihil? Exercitationem, harum architecto. Tenetur quaerat esse et voluptates ipsum iusto amet modi cupiditate exercitationem repellat. Facilis tenetur impedit sit.",
+    "categoria": "plato",
+    "precio": 4300,
+    "stock": true
+  },
+  {
+    "nombre": "sopa",
+    "descripcion" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, nostrum nihil? Exercitationem, harum architecto. Tenetur quaerat esse et voluptates ipsum iusto amet modi cupiditate exercitationem repellat. Facilis tenetur impedit sit.",
+    "categoria": "plato",
+    "precio": 3300,
+    "stock": true
+  },
+  {
+    "nombre": "pescado",
+    "descripcion" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, nostrum nihil? Exercitationem, harum architecto. Tenetur quaerat esse et voluptates ipsum iusto amet modi cupiditate exercitationem repellat. Facilis tenetur impedit sit.",
+    "categoria": "plato",
+    "precio": 4300,
+    "stock": true
+  },
+  {
+    "nombre": "torta",
+    "descripcion" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, nostrum nihil? Exercitationem, harum architecto. Tenetur quaerat esse et voluptates ipsum iusto amet modi cupiditate exercitationem repellat. Facilis tenetur impedit sit.",
+    "categoria": "postre",
+    "precio": 2300,
+    "stock": true
+  }
+
+]

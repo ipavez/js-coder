@@ -74,6 +74,23 @@ function loginUser(usuario,password){
       localStorage.newUsers = JSON.stringify(Array.from(loginMap));
       target.innerHTML = `Usuario ${nuevoUsuario} creado exitosamente.`;
       target.style.color ='green';
+      Toastify({
+        text: `${nuevoUsuario}, inicia sesion aqui`,
+        duration: 3000,
+        close: false,
+        gravity: "bottom", 
+        position: "left", 
+        stopOnFocus: true, 
+        style: {
+          background: "linear-gradient(to right, #00b09b, #27c93d)",
+        },
+        onClick: function(){
+          const usuario = loginUser(nuevoUsuario,newPass);
+          sessionStorage.user = JSON.stringify(usuario);
+          window.location.replace("./index.html");
+
+        } 
+      }).showToast();
       loginBtn.focus();
       }
     }
@@ -88,6 +105,7 @@ function loginUser(usuario,password){
 newUserBtn.addEventListener("click", (e) => {
   e.preventDefault();
   loginUser("+++newUserSecretSyntax+++");
+  
 })
 loginBtn.addEventListener("click", (e) => {
   e.preventDefault();
@@ -97,7 +115,9 @@ loginBtn.addEventListener("click", (e) => {
         sessionStorage.user = JSON.stringify(usuario);
         window.location.replace("./index.html");
       }
-    : pass.value = '';
+    : () => {
+      pass.value = '';
+      }
   checkUsuario();
 });
 

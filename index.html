@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="es-CL">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TTT APP</title>
-    <link rel="stylesheet" href="./css/style.css"> 
-    <script src="js/global.js" ></script>  
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+     
 </head>
 <body id="index-body">
     <header id="header">
@@ -13,11 +16,16 @@
         <span id="log-out"></span>
         <h2 id="saludo"></h2>
         <nav id="nav"></nav>
+        
         <input id="boton" type="button" value="Añadir Reporte" onclick="addReport();"/>
+        <a href="help.html">Ver el Menu</a>
     </header> 
     <section id="reports"></section> 
 </body>
+<script src="js/global.js" ></script> 
 <script src="js/index.js"> </script>
+
+
 
 </html>
 
