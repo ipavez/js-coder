@@ -75,7 +75,7 @@ function loginUser(usuario,password){
       target.innerHTML = `Usuario ${nuevoUsuario} creado exitosamente.`;
       target.style.color ='green';
       Toastify({
-        text: `${nuevoUsuario}, inicia sesion aqui`,
+        text: `Bienvenido ${nuevoUsuario}. Inicia sesion aqui`,
         duration: 3000,
         close: false,
         gravity: "bottom", 
@@ -88,7 +88,6 @@ function loginUser(usuario,password){
           const usuario = loginUser(nuevoUsuario,newPass);
           sessionStorage.user = JSON.stringify(usuario);
           window.location.replace("./index.html");
-
         } 
       }).showToast();
       loginBtn.focus();

@@ -232,8 +232,9 @@ function addReport(user = usuario) {
     delay = setTimeout( async() => {
       try {
         menu.innerHTML='';
-        const data = await fetch(`./productos.json`);
-        const datos = await data.json();
+        const data = await fetch(`https://blackdog-musicstore.vercel.app`);
+        const datoss = await data.json();
+        const datos = datoss.filter((x)=> x.stock == true);
         const bebidasList = datos.filter((x) => x.categoria == "bebida");
         const bebidasAlcohList = datos.filter((x) => x.categoria == "bebida alcoholica");
         const platosList = datos.filter((x) => x.categoria == "plato");
@@ -274,7 +275,11 @@ function addReport(user = usuario) {
           menu.appendChild(div);
         }}
       catch(err){
-        console.log(err)
+        Swal.fire({
+          title: "Error!",
+          text: `${err}`,
+          icon: "error"
+        });
       }
     },500);
   });
@@ -308,6 +313,14 @@ const readPedido = (pedido_list,parent) => {
     })
   }
 }
+const calcularTotal = (pedido_list) => {
+  let total = 0;
+  for( const item of pedido_list){
+  const this_precio = parseInt(item.cantidad) * parseInt(item.precio) ;
+  total = total + this_precio;
+  return total
+  }
+}
 function readReports(report_array, this_user = usuario) {
   const reportes = report_array.filter(x => x.prioridad != 'eliminado');
   if (reportes.length == 0){
@@ -328,7 +341,7 @@ function readReports(report_array, this_user = usuario) {
     completeBtn.classList.add("complete-button");
     div.classList.add("report");
     const txt = report.pedido.map( x => `${x.cantidad} ${x.nombre}`)
-    newReport.innerHTML = `${txt}<br>`;
+    newReport.innerHTML = `${txt}`;
     autor.innerHTML = `${report.user} - ${report.date}`;
     if (report.user == this_user || loginMap.get(this_user).admin) {
       const deleteBtn = document.createElement("button");
@@ -376,9 +389,12 @@ function readReports(report_array, this_user = usuario) {
         break;
       case "alta":
         autor.style.color = "red";
+        newReport.innerHTML = `${report.txt}`;
         break;
       case "solucionado":
         autor.style.color = "green";
+        const this_total = calcularTotal(report.pedido);
+        newReport.innerHTML = `$${this_total}`;
         break;
       case "eliminado":
         div.style.display = "none";
@@ -387,36 +403,7 @@ function readReports(report_array, this_user = usuario) {
         break;
     }
     autor.addEventListener("click", ()=>{
-      const this_pedido = [];
-      let format = '';
-      const formatComa = (x) => {
-        while(x.includes(',')){
-          const split = x.slice(0, x.indexOf(','));
-          format = format + split+'<br>';
-          x = x.slice(x.indexOf(',')+1); 
-        }
-        format = format + x;
-      }
-      for (const item of report.pedido){
-        this_pedido.push(`${item.cantidad} ${item.nombre}`)
-      }
-      const string_pedido = `${this_pedido}`;
-      string_pedido.includes(',') ? formatComa(string_pedido) : format = string_pedido;
-      let total = 0;
-      for( const item of report.pedido){
-        const this_precio = parseInt(item.cantidad) * parseInt(item.precio) ;
-        total = total + this_precio;
-      }
-      Swal.fire({
-        title: report.id,
-        html: `
-          ${format}<br>
-          <br>
-          <b>${report.txt}<br>
-          <br>
-          $${total}</b>
-        `,
-      });
+      showDetail(report);
     })
     completeBtn.addEventListener("click", () => {
       autor.style.color = "green";
@@ -446,6 +433,38 @@ function readReports(report_array, this_user = usuario) {
       localStorage.newReports = JSON.stringify(Report.allInstances);
     });
   }
+}
+function showDetail(report){
+  const this_pedido = [];
+      let format = '';
+      const formatComa = (x) => {
+        while(x.includes(',')){
+          const split = x.slice(0, x.indexOf(','));
+          format = format + split+'<br>';
+          x = x.slice(x.indexOf(',')+1); 
+        }
+        format = format + x;
+      }
+      for (const item of report.pedido){
+        this_pedido.push(`${item.cantidad} ${item.nombre}`)
+      }
+      const string_pedido = `${this_pedido}`;
+      string_pedido.includes(',') ? formatComa(string_pedido) : format = string_pedido;
+      let total = 0;
+      for( const item of report.pedido){
+        const this_precio = parseInt(item.cantidad) * parseInt(item.precio) ;
+        total = total + this_precio;
+      }
+      Swal.fire({
+        title: report.id,
+        html: `
+          ${format}<br>
+          <br>
+          <b>${report.txt}<br>
+          <br>
+          $${total}</b>
+        `,
+      })
 }
 function readPapelera(report_array, this_user = usuario) {
   const papeleraList = report_array.filter(x => x.prioridad == 'eliminado');
@@ -491,7 +510,12 @@ function readPapelera(report_array, this_user = usuario) {
     report.appendChild(newReport);
     report.appendChild(label);
     report.appendChild(checkbox);
+
+    autor.addEventListener("click", ()=>{
+      showDetail(x);
+    });
   }
+  
   deleteBtn.addEventListener("click", () => {
     const checkList = document.querySelectorAll(`input[name=checkbox]:checked`);    
     const borrarList = Array.from(checkList).map((checked) => checked.parentElement.querySelector('h3').innerHTML);
@@ -588,7 +612,6 @@ function sessionUser(usuario) {
       style: {
         background: "f0f0f0",
       },
-      onClick: function(){} 
     }).showToast();
     setTimeout(()=>{
       sessionStorage.clear();
@@ -617,8 +640,7 @@ const checkUser = sessionStorage.user
         stopOnFocus: false, 
         style: {
           background: "linear-gradient(to right, #00b09b, #27c93d)",
-        },
-        onClick: function(){} 
+        }
       }).showToast();
   }
   : () => {

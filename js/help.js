@@ -9,19 +9,21 @@ document.body.appendChild(main);
 
 function readMenu(menuList){
   for (const x of menuList) {
-    const div = document.createElement("div");
-    div.innerHTML = `
-    <h3>${x.nombre}- $${x.precio}</h3>
-    <p style="color:black;">${x.descripcion}</p>
-    <br>`;
-    div.style.color = "white";
-    div.style.backgroundColor = "blue";
-    main.appendChild(div);
+    if(x.stock){
+      const div = document.createElement("div");
+      div.innerHTML = `
+      <h3>${x.nombre}- $${x.precio}</h3>
+      <p style="color:black;">${x.descripcion}</p>
+      <br>`;
+      div.style.color = "white";
+      div.style.backgroundColor = "blue";
+      main.appendChild(div);
+    }
   }
 }
 const fetchMenu = async () => {
   try {
-    const data = await fetch(`productos.json`);
+    const data = await fetch(`https://blackdog-musicstore.vercel.app`);
     const datos = await data.json();
     const bebidasList = datos.filter((x) => x.categoria == "bebida");
     const bebidasAlcohList = datos.filter((x) => x.categoria == "bebida alcoholica");
@@ -76,6 +78,16 @@ prompGPT.addEventListener('keydown', () => {
     delay = setTimeout( fetchMenu , 500); 
 })
 fetchMenu();
+
+
+
+
+
+
+  
+
+
+
 
 
 
