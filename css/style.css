@@ -34,6 +34,7 @@ body header{
     background-color: yellowgreen;
     margin-top: 8px;
     display: none;
+    cursor: pointer;
 }
 .report{
     padding: 12px;
@@ -95,4 +96,36 @@ body header{
     flex-direction: column;
 }
 
+body h1 a {
+    text-decoration: none;
+    color:antiquewhite;
 
+}
+
+body h1 a:hover{
+    color:blueviolet;
+}
+header a{
+    color: antiquewhite;
+    background-color: blue;
+    text-decoration: none;
+    border: 1px solid antiquewhite;
+    margin-top: 4px;
+}
+header h2 a{
+    color: antiquewhite;
+    background-color: blueviolet;
+    text-decoration: none;
+    border: 1px solid antiquewhite;   
+}
+
+.add-report-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+button{
+    cursor: pointer;
+}

@@ -123,6 +123,7 @@ function addReport(user = usuario) {
   const newReport = document.createElement("textarea");
   const sendBtn = document.createElement("button");
   write.classList.add('write');
+  form.classList.add('add-report-form');
   input.type = 'search';
   input.placeholder = 'Buscar en el Menu'
   autor.style.color = "antiquewhite";
@@ -226,6 +227,7 @@ function addReport(user = usuario) {
 
   const menu = document.createElement("div");
   target.appendChild(menu);
+  input.style.marginTop = '4px';
   let delay;
   input.addEventListener('keydown', () => {
     clearTimeout(delay);
