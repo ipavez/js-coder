@@ -26,6 +26,115 @@ class Item{
   }
 }
 let pedido = [];
+function readReports(report_array, this_user = usuario) {
+  const reportes = report_array.filter(x => x.prioridad != 'eliminado');
+  if (reportes.length == 0){
+    target.innerHTML = 'No hay reportes.'
+  }
+  for (const report of reportes) {
+    const div = document.createElement("div");
+    const autor = document.createElement("h3");
+    const newReport = document.createElement("article");
+    const altasendBtn = document.createElement("button");
+    const bajasendBtn = document.createElement("button");
+    const completeBtn = document.createElement("button");
+    altasendBtn.innerHTML = "Alta prioridad";
+    altasendBtn.classList.add("alta-prioridad-btn");
+    bajasendBtn.innerHTML = "Reset";
+    bajasendBtn.classList.add("baja-prioridad-btn");
+    completeBtn.innerHTML = "Completar";
+    completeBtn.classList.add("complete-button");
+    div.classList.add("report");
+    const txt = report.pedido.map( x => `${x.cantidad} ${x.nombre}`)
+    newReport.innerHTML = `${txt}`;
+    autor.innerHTML = `${report.user} - ${report.date}`;
+    if (report.user == this_user || loginMap.get(this_user).admin) {
+      const deleteBtn = document.createElement("button");
+      deleteBtn.id = 'x';
+      deleteBtn.style.borderRadius = "60px";
+      deleteBtn.style.height = "14px";
+      deleteBtn.style.width = "14px";
+      deleteBtn.style.backgroundColor = "red";
+      deleteBtn.style.marginLeft = "8px";
+      deleteBtn.addEventListener("click", () => {
+        Toastify({
+          text: `Enviado a papelera.. ¿Cancelar?`,
+          duration: 5000,
+          close: true,
+          gravity: "bottom", 
+          position: "left", 
+          stopOnFocus: true, 
+          style: {
+            background: "red",
+          },
+          onClick: function(){
+            report.prioridad = 'baja';
+            target.innerHTML ='';
+            readReports(Report.allInstances);
+          } 
+        }).showToast();
+        report.prioridad = "eliminado";
+        localStorage.newReports = JSON.stringify(Report.allInstances);
+        target.innerHTML ='';
+        readReports(Report.allInstances);
+      });
+      div.appendChild(deleteBtn);
+    }
+    target.appendChild(div);
+    div.appendChild(autor);
+    div.appendChild(newReport);
+    if (report.user == this_user || loginMap.get(this_user).admin) {
+      div.appendChild(altasendBtn);
+      div.appendChild(bajasendBtn);
+    }
+    div.appendChild(completeBtn);
+    switch (report.prioridad) {
+      case "baja":
+        autor.style.color = "yellow";
+        break;
+      case "alta":
+        autor.style.color = "red";
+        newReport.innerHTML = `${report.txt}`;
+        break;
+      case "solucionado":
+        autor.style.color = "green";
+        const this_total = calcularTotal(report.pedido);
+        newReport.innerHTML = `$${this_total}`;
+        break;
+      case "eliminado":
+        div.style.display = "none";
+        break;
+      default:
+        break;
+    }
+    autor.addEventListener("click", ()=>{
+      showDetail(report);
+    })
+    completeBtn.addEventListener("click", () => {
+      autor.style.color = "green";
+      report.prioridad = "solucionado";
+      const total = calcularTotal(report.pedido);
+      newReport.innerHTML = `$${total}`;
+      localStorage.newReports = JSON.stringify(Report.allInstances);
+    });
+    altasendBtn.addEventListener("click", () => {
+      autor.style.color = "red";
+      report.prioridad = "alta";
+      newReport.innerHTML = `${report.txt}`;
+      localStorage.newReports = JSON.stringify(Report.allInstances);
+    });
+    bajasendBtn.addEventListener("click", () => {
+      autor.style.color = "yellow";
+      report.prioridad = "baja";
+      const this_pedido=[];
+      for (const item of report.pedido){
+        this_pedido.push(`${item.cantidad} ${item.nombre}`);
+      }
+      newReport.innerHTML = `${this_pedido}<br>`;
+      localStorage.newReports = JSON.stringify(Report.allInstances);
+    });
+  }
+}
 function createFechaBtn(parent){
   const fechaBtn = document.createElement("button");
   const fechaSwitch = [0, 1];
@@ -246,7 +355,7 @@ function addReport(user = usuario) {
           .concat(platosList)
           .concat(postresList);
         const filterList = menuList.filter(x => x.nombre.startsWith(input.value));
-        for ( x of filterList){
+        for ( const x of filterList){
           const div = document.createElement("div");
           div.innerHTML = `
             <h3>${x.nombre}-$${x.precio}---${x.categoria} </h3>
@@ -318,123 +427,10 @@ const readPedido = (pedido_list,parent) => {
 const calcularTotal = (pedido_list) => {
   let total = 0;
   for( const item of pedido_list){
-  const this_precio = parseInt(item.cantidad) * parseInt(item.precio) ;
-  total = total + this_precio;
+    const this_precio = parseInt(item.cantidad) * parseInt(item.precio) ;
+    total = total + this_precio;
+  }
   return total
-  }
-}
-function readReports(report_array, this_user = usuario) {
-  const reportes = report_array.filter(x => x.prioridad != 'eliminado');
-  if (reportes.length == 0){
-    target.innerHTML = 'No hay reportes.'
-  }
-  for (const report of reportes) {
-    const div = document.createElement("div");
-    const autor = document.createElement("h3");
-    const newReport = document.createElement("article");
-    const altasendBtn = document.createElement("button");
-    const bajasendBtn = document.createElement("button");
-    const completeBtn = document.createElement("button");
-    altasendBtn.innerHTML = "Alta prioridad";
-    altasendBtn.classList.add("alta-prioridad-btn");
-    bajasendBtn.innerHTML = "Reset";
-    bajasendBtn.classList.add("baja-prioridad-btn");
-    completeBtn.innerHTML = "Completar";
-    completeBtn.classList.add("complete-button");
-    div.classList.add("report");
-    const txt = report.pedido.map( x => `${x.cantidad} ${x.nombre}`)
-    newReport.innerHTML = `${txt}`;
-    autor.innerHTML = `${report.user} - ${report.date}`;
-    if (report.user == this_user || loginMap.get(this_user).admin) {
-      const deleteBtn = document.createElement("button");
-      deleteBtn.id = 'x';
-      deleteBtn.style.borderRadius = "60px";
-      deleteBtn.style.height = "14px";
-      deleteBtn.style.width = "14px";
-      deleteBtn.style.backgroundColor = "red";
-      deleteBtn.style.marginLeft = "8px";
-      deleteBtn.addEventListener("click", () => {
-        Toastify({
-          text: `Enviado a papelera.. ¿Cancelar?`,
-          duration: 5000,
-          close: true,
-          gravity: "bottom", 
-          position: "left", 
-          stopOnFocus: true, 
-          style: {
-            background: "red",
-          },
-          onClick: function(){
-            report.prioridad = 'baja';
-            target.innerHTML ='';
-            readReports(Report.allInstances);
-          } 
-        }).showToast();
-        report.prioridad = "eliminado";
-        localStorage.newReports = JSON.stringify(Report.allInstances);
-        target.innerHTML ='';
-        readReports(Report.allInstances);
-      });
-      div.appendChild(deleteBtn);
-    }
-    target.appendChild(div);
-    div.appendChild(autor);
-    div.appendChild(newReport);
-    if (report.user == this_user || loginMap.get(this_user).admin) {
-      div.appendChild(altasendBtn);
-      div.appendChild(bajasendBtn);
-    }
-    div.appendChild(completeBtn);
-    switch (report.prioridad) {
-      case "baja":
-        autor.style.color = "yellow";
-        break;
-      case "alta":
-        autor.style.color = "red";
-        newReport.innerHTML = `${report.txt}`;
-        break;
-      case "solucionado":
-        autor.style.color = "green";
-        const this_total = calcularTotal(report.pedido);
-        newReport.innerHTML = `$${this_total}`;
-        break;
-      case "eliminado":
-        div.style.display = "none";
-        break;
-      default:
-        break;
-    }
-    autor.addEventListener("click", ()=>{
-      showDetail(report);
-    })
-    completeBtn.addEventListener("click", () => {
-      autor.style.color = "green";
-      report.prioridad = "solucionado";
-      let total = 0;
-      for( const item of report.pedido){
-        const this_precio = parseInt(item.cantidad) * parseInt(item.precio) ;
-        total = total + this_precio;
-      }
-      newReport.innerHTML = `$${total}`;
-      localStorage.newReports = JSON.stringify(Report.allInstances);
-    });
-    altasendBtn.addEventListener("click", () => {
-      autor.style.color = "red";
-      report.prioridad = "alta";
-      newReport.innerHTML = `${report.txt}`;
-      localStorage.newReports = JSON.stringify(Report.allInstances);
-    });
-    bajasendBtn.addEventListener("click", () => {
-      autor.style.color = "yellow";
-      report.prioridad = "baja";
-      const this_pedido=[];
-      for (const item of report.pedido){
-        this_pedido.push(`${item.cantidad} ${item.nombre}`);
-      }
-      newReport.innerHTML = `${this_pedido}<br>`;
-      localStorage.newReports = JSON.stringify(Report.allInstances);
-    });
-  }
 }
 function showDetail(report){
   const this_pedido = [];
@@ -452,11 +448,7 @@ function showDetail(report){
       }
       const string_pedido = `${this_pedido}`;
       string_pedido.includes(',') ? formatComa(string_pedido) : format = string_pedido;
-      let total = 0;
-      for( const item of report.pedido){
-        const this_precio = parseInt(item.cantidad) * parseInt(item.precio) ;
-        total = total + this_precio;
-      }
+      const total = calcularTotal(report.pedido);
       Swal.fire({
         title: report.id,
         html: `
@@ -494,7 +486,7 @@ function readPapelera(report_array, this_user = usuario) {
     target.innerHTML = "";
     target.innerHTML = "Papelera Vacia";
   }
-  for( x of papeleraList){
+  for( const x of papeleraList){
     const report = document.createElement("div");
     const autor = document.createElement("h3");
     const newReport = document.createElement("article");
