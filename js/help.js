@@ -78,8 +78,6 @@ prompGPT.addEventListener('keydown', () => {
     main.innerHTML='';
     delay = setTimeout( fetchMenu , 500); 
 })
-fetchMenu();
-
 function happyHour(now = new Date){
   const check = () => {
     return now.getHours() === 23 ;
@@ -87,8 +85,6 @@ function happyHour(now = new Date){
   return new Promise ((res,rej) => {
     check() ? res('si') : rej('no');
   })}
-
-
 happyHour()
 .then(() => {
   Toastify({
@@ -116,7 +112,11 @@ happyHour()
       background: "black",
     }
   }).showToast();
-})
+});
+
+fetchMenu();
+
+
 
 
 
