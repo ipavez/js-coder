@@ -384,6 +384,7 @@ function addReport(user = usuario) {
     target.innerHTML = "";
     sessionStorage.removeItem('unfinished_pedido');
     sessionStorage.removeItem('unfinished_newReport');
+    pedido = [];
     readReports(Report.allInstances);
   });
   target.innerHTML = "";
@@ -401,6 +402,7 @@ function addReport(user = usuario) {
     newReport.value = JSON.parse(sessionStorage.unfinished_newReport);
   }
   if(sessionStorage.unfinished_pedido){
+    pedido = [];
     const writeList = JSON.parse(sessionStorage.unfinished_pedido);
     pedido.push(...writeList)
     readPedido(pedido , write); 
