@@ -357,12 +357,18 @@ function addReport(user = usuario) {
   const report = document.createElement("div");
   const autor = document.createElement("label");
   const form = document.createElement("form");
+  const label = document.createElement("label");
   const input = document.createElement("input");
   const newReport = document.createElement("textarea");
   const sendBtn = document.createElement("button");
   write.classList.add('write');
   form.classList.add('add-report-form');
   input.type = 'search';
+  label.innerHTML = 'Añadir item al pedido:';
+  label.style.color = 'blue';
+  label.style.fontWeight = 'bold';
+  label.for = 'menu';
+  input.id = 'menu';
   input.placeholder = 'Buscar en el Menu'
   autor.style.color = "antiquewhite";
   autor.for = 'nuevo-reporte';
@@ -396,6 +402,7 @@ function addReport(user = usuario) {
   report.appendChild(form);
   autor.innerHTML = `${user}`;
   autor.appendChild(deleteBtn);
+  target.appendChild(label);
   target.appendChild(input);
 
   if( sessionStorage.unfinished_newReport){
